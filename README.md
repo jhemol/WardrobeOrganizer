@@ -36,6 +36,18 @@ The workflow in `.github/workflows/build-download.yml` runs tests and builds the
 
 ## Mobile App
 
-The Ionic Vue app is configured with Capacitor for Android and iOS. Generate a native project and sync the current web build with `npm run mobile:add:android` or `npm run mobile:add:ios`, then use `npm run mobile:android` or `npm run mobile:ios` to open it in the platform IDE. Android builds require Android Studio and its SDK. iOS builds require macOS and Xcode. After web changes, run `npm run mobile:sync` to build and sync the native projects.
+The installed mobile app is a separate native Flutter application in `mobile_app/`; it does not render the Vue site in a WebView. It includes the outfit calendar, digital closet, wardrobe-based style ideas, color notes, and a live outfit preview. Data is stored on-device and can optionally sync with the Express/PostgreSQL API by building with `--dart-define=WARDROBE_API_URL=https://your-api-host`.
 
-The five-step first-run tour covers the digital closet, closet-based style ideas, outfit building with a live preview, calendar planning, and color notes. It can be replayed from the help icon in the app header. Style ideas are local wardrobe pairings, not an external AI service. Pages and garment pickers scroll independently on touch and desktop layouts.
+Install the Flutter SDK to run it locally:
+
+```sh
+cd mobile_app
+flutter create --org com.thread --project-name thread_wardrobe --platforms android,ios .
+flutter pub get
+flutter test
+flutter run
+```
+
+GitHub Actions generates a temporary Android Flutter project, runs `flutter test`, builds a native debug APK, and publishes it as the `thread-wardrobe-android-debug` artifact. The separate Vue app remains available as the web version. iOS builds require macOS and Xcode.
+
+The web version's five-step walkthrough covers the digital closet, closet-based style ideas, outfit building with a live preview, calendar planning, and color notes. Style ideas are local wardrobe pairings, not an external AI service.

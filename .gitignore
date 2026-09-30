@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+mobile_app/.dart_tool/
+mobile_app/build/
 
 # Editor directories and files
 .vscode/*
